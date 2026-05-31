@@ -232,20 +232,8 @@ For each electrode the following analyses were performed:
 
 ## Static Studies
 
-### Monopolar Stimulation
-
-Current amplitudes:
-
-- 1 mA
-- 3 mA
-- 5 mA
-- 7 mA
-- 10 mA
-- 15 mA
-
-### Multipolar Stimulation
-
-Multiple active contacts with neighboring contacts used as grounds.
+- Monopolar Stimulation
+- Multipolar Stimulation
 
 ---
 
