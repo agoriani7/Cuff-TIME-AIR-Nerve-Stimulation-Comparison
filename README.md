@@ -1,54 +1,356 @@
-# Peripheral Nerve Stimulation (PNS): Computational Modelling & Electrode Comparison (CUFF · TIME · AIR)
+# Peripheral Nerve Stimulation – Electrode Comparison (CUFF, TIME, AIR)
 
-## 👥 Authors & Affiliation
-* **Filippo Aspi** – Biomedical Engineering
-* **Andrea Goriani** – Biomedical Engineering
+## Overview
 
----
+This project investigates and compares three different peripheral nerve stimulation electrode architectures:
 
-## 📝 Project Overview
-This project introduces a comprehensive computational framework for **Peripheral Nerve Stimulation (PNS)**, developed to systematically evaluate, simulate, and compare three state-of-the-art neural electrode architectures:
-1. **Extraneural (Cuff Electrode):** Non-invasive, wrapping around the outer nerve sheath.
-2. **Intraneural TIME (Transverse Intrafascicular Multichannel Electrode):** Transversely penetrating the nerve.
-3. **Intraneural AIR (Adaptable Intrafascicular Radial Electrode):** Optimally shaped radial architecture designed via model-based optimization.
+- **CUFF Electrode** (Extraneural)
+- **TIME Electrode** (Transverse Intrafascicular Multichannel Electrode)
+- **AIR Electrode** (Adaptable Intrafascicular Radial Electrode)
 
-By combining **Finite Element Method (FEM)** macroscopic volume conductor simulations with microscopic **Biophysical Axonal Dynamics (Hodgkin-Huxley & Cable Equation)**, this framework maps the intrinsic trade-offs between surgical invasiveness, structural stability, and spatial stimulation selectivity.
+The study was conducted through computational modeling and finite element simulations to evaluate the trade-off between invasiveness, selectivity, stimulation efficiency, and sensing capabilities.
 
 ---
 
-## 🎯 Project Objectives
-* **Parametric 3D Modelling:** Recreate anatomical representations of peripheral nerves (including distinct fascicles, perineurium, and epineurium) alongside detailed electrode meshes.
-* **Volume Conductor Physics:** Map the electric potential fields generated inside the anisotropic tissue under various stimulation paradigms (Monopolar vs. Multipolar/Biphasic).
-* **Neural Activation Mapping:** Solve the time-dependent non-linear membrane equations to predict action potential generation and propagate axonal responses.
-* **Objective Benchmarking:** Quantitative comparison of CUFF, TIME, and AIR architectures within an identical, highly controlled virtual testing environment.
+## Authors
+
+- Filippo Aspi
+- Andrea Goriani
 
 ---
 
-## 🔬 Physics & Theoretical Framework
+## Background
 
-### 1. Macroscopic Domain: Volume Conductor Theory
-At low operational frequencies, peripheral biological tissues can be modeled as purely passive, resistive mediums ($\partial u / \partial t = 0$). Combining the charge conservation law with Ohm's law yields the generalized **Laplace Equation** used to map current propagation in the 3D volume:
+Peripheral nerve stimulation is a key technology for:
 
-$$\nabla \cdot (\sigma \nabla \phi) = 0$$
+### Therapeutic Neuromodulation
+- Epilepsy treatment
+- Heart rate regulation through vagus nerve stimulation
+- Bladder contraction control
+- Sexual function restoration
 
-Where $\sigma$ represents the specific electrical conductivity tensor of the targeted tissue domain, and $\phi$ is the extracellular electric potential.
+### Sensory Restoration
+- Tactile feedback for amputees
+- Proprioceptive feedback
+- Advanced neuroprosthetics
 
-### 2. Microscopic Domain: Cable Equation & Hodgkin-Huxley Model
-To analyze the transmembrane potential ($V_m$) dynamics across unmyelinated axons over time under external electric fields, the framework solves the **Cable Equation**:
-
-$$\frac{\partial V_m(x,t)}{\partial t} = \frac{1}{C_m} \left( \frac{\sigma I_a}{2} \frac{\partial^2 V_m(x,t)}{\partial x^2} + \frac{\sigma I_a}{2} \frac{\partial^2 \phi_O(x,t)}{\partial x^2} - I_{ion}(x,t) \right)$$
-
-The non-linear ionic current ($I_{ion}$) is calculated using the voltage-dependent gating kinetics ($m$, $h$, $n$) from the **Hodgkin-Huxley model**:
-
-$$I_{ion} = \bar{G}_{Na} m^3 h (V_m - V_{Na}) + \bar{G}_K n^4 (V_m - V_K) + \bar{G}_L (V_m - V_L)$$
-
-The gating variables transition kinetics are governed by:
-$$\frac{dm}{dt} = \alpha_m(V_m)(1-m) - \beta_m(V_m)m$$
-$$\frac{dh}{dt} = \alpha_h(V_m)(1-h) - \beta_h(V_m)h$$
-$$\frac{dn}{dt} = \alpha_n(V_m)(1-n) - \beta_n(V_m)n$$
+Different electrode architectures offer different compromises between safety, selectivity, and implantation complexity.
 
 ---
 
-## 💻 Simulation Workflow & Pipeline
+## Project Objectives
 
-The execution architecture links **MATLAB** (for parametric scripting, optimization, and post-processing) with **COMSOL Multiphysics** (for FEM heavy-lifting) through an automated pipeline:
+The project aims to:
+
+1. Model peripheral nerve and electrode geometries.
+2. Develop finite element simulations using COMSOL and MATLAB.
+3. Investigate the physical mechanisms underlying neural stimulation.
+4. Compare electrode performance under identical simulation conditions.
+
+---
+
+## Simulation Workflow
+
+```text
+Geometry Generation (MATLAB)
+          ↓
+Material Assignment
+          ↓
+Boundary Conditions
+          ↓
+Mesh Generation
+          ↓
+FEM Solver
+     ↙       ↘
+Static      Time-Dependent
+     ↓            ↓
+Electric    Axonal Activation
+Potential   (Hodgkin-Huxley)
+```
+
+---
+
+## Nerve Model
+
+### Tissue Conductivities
+
+| Tissue | Conductivity (S/m) |
+|----------|----------|
+| Saline | 2.0 |
+| Epineurium | 0.083 |
+| Endoneurium | 0.083 / 0.571 |
+| Perineurium | 0.0009 |
+
+### Main Features
+
+- Five fascicles with varying dimensions
+- Parametric geometry generation
+- MATLAB–COMSOL integration
+- Perineurium modeled as contact impedance
+- Grounded saline boundaries
+- Adaptive mesh refinement near electrodes and fascicles
+
+---
+
+## Mathematical Models
+
+### Volume Conductor Theory
+
+At low frequencies biological tissues are assumed purely resistive.
+
+The electrical potential distribution is obtained from:
+
+\[
+\nabla \cdot (\sigma \nabla V)=0
+\]
+
+which derives from:
+
+- Charge conservation
+- Ohm's law
+
+This allows visualization of current flow and stimulation selectivity inside the nerve.
+
+---
+
+### Hodgkin-Huxley Axon Model
+
+Neural activation is modeled through the classical Hodgkin-Huxley framework.
+
+The model describes:
+
+- Sodium channel activation (m)
+- Sodium channel inactivation (h)
+- Potassium channel activation (n)
+
+Combined with the cable equation, it allows simulation of:
+
+- Action potentials
+- Membrane currents
+- Extracellular potentials
+
+---
+
+# Electrode Architectures
+
+## 1. CUFF Electrode
+
+### Characteristics
+
+- Extraneural
+- Wrapped around the epineurium
+- No tissue penetration
+
+### Materials
+
+| Component | Material |
+|------------|------------|
+| Support | Silicone |
+| Contacts | Platinum |
+
+### Configuration
+
+- 8 platinum contacts
+- Contact size: 0.05 × 0.5 mm
+
+### Advantages
+
+- Safe implantation
+- Minimal tissue damage
+- High long-term stability
+
+### Limitations
+
+- Low spatial selectivity
+- Difficult stimulation of deep fascicles
+
+---
+
+## 2. TIME Electrode
+
+### Characteristics
+
+Transverse Intrafascicular Multichannel Electrode
+
+### Materials
+
+| Component | Material |
+|------------|------------|
+| Substrate | Polyimide |
+| Contacts | Platinum |
+
+### Configuration
+
+- 10 active sites
+- Contact diameter: 60 μm
+- Shank thickness: 20 μm
+
+### Advantages
+
+- High local selectivity
+- Direct fascicle access
+
+### Limitations
+
+- Invasive implantation
+- Surgical complexity
+- Interface modeling challenges
+
+---
+
+## 3. AIR Electrode
+
+### Characteristics
+
+Adaptable Intrafascicular Radial Electrode
+
+### Materials
+
+| Component | Material |
+|------------|------------|
+| Substrate | Polyimide |
+| Contacts | Platinum |
+
+### Configuration
+
+- 8 primary contacts + 4 auxiliary contacts
+- Spike height: 450 μm
+
+### Advantages
+
+- Radial architecture improves stability
+- Multiple active sites
+- Flexible stimulation patterns
+
+### Limitations
+
+- Greater fascicle penetration
+- Potential electric field dispersion
+
+---
+
+# Simulation Studies
+
+For each electrode the following analyses were performed:
+
+## Static Studies
+
+### Monopolar Stimulation
+
+Current amplitudes:
+
+- 1 mA
+- 3 mA
+- 5 mA
+- 7 mA
+- 10 mA
+- 15 mA
+
+### Multipolar Stimulation
+
+Multiple active contacts with neighboring contacts used as grounds.
+
+---
+
+## Time-Dependent Studies
+
+### Action Potentials
+
+Biphasic stimulation waveforms were adopted to minimize tissue damage.
+
+### Membrane Current Analysis
+
+Evaluation of induced transmembrane currents and activation dynamics.
+
+### Extracellular Sensing
+
+Potential measurements performed:
+
+- Inside the fascicle
+- Outside the fascicle
+
+Results highlight the shielding effect of the perineurium on extracellular recordings.
+
+---
+
+# Results Comparison
+
+| Feature | CUFF | TIME | AIR |
+|----------|----------|----------|----------|
+| Invasiveness | Low | High | Medium |
+| Contacts | 8 | 10 | 8 + 4 |
+| Selectivity | Low | High | High |
+| Surgical Complexity | Low | High | Medium |
+| Fascicle Access | Peripheral | Direct | Direct |
+| Clinical Risk | Low | High | Medium |
+
+---
+
+# Key Findings
+
+## CUFF Electrode
+
+✔ High peripheral selectivity
+
+✔ Non-invasive
+
+✔ Excellent safety profile
+
+✖ Poor access to deeper fascicles
+
+✖ Limited spatial resolution
+
+---
+
+## TIME Electrode
+
+✔ Excellent local selectivity
+
+✔ Direct fascicle targeting
+
+✖ Highly invasive
+
+✖ Sensitive to implantation positioning
+
+✖ Interface-related simulation issues
+
+---
+
+## AIR Electrode
+
+✔ Improved stability through radial design
+
+✔ Multiple tunable stimulation sites
+
+✔ High selectivity
+
+✖ Greater tissue penetration
+
+✖ Potential electric field dispersion
+
+---
+
+# Future Work
+
+- Simulate additional electrode architectures.
+- Refine AIR geometries.
+- Increase the number of modeled axons.
+- Reconstruct complete nerve anatomy from histological images.
+- Investigate closed-loop sensing configurations.
+- Use one electrode architecture as a sensing probe.
+
+---
+
+## Reference
+
+Ciotti, F., Cimolato, A., Valle, G., & Raspopovic, S. (2023).
+
+*Design of an Adaptable Intrafascicular Electrode (AIR) for Selective Nerve Stimulation by Model-Based Optimization.*
+
+PLOS Computational Biology, 19(5), e1011184.
+
+---
+
+## Acknowledgments
+
+This project combines computational neuroscience, finite element modeling, and neural engineering to explore next-generation peripheral nerve interfaces for neuroprosthetic and neuromodulation applications.
