@@ -100,9 +100,6 @@ At low frequencies biological tissues are assumed purely resistive.
 
 The electrical potential distribution is obtained from:
 
-\[
-\nabla \cdot (\sigma \nabla V)=0
-\]
 
 which derives from:
 
