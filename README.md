@@ -1,143 +1,54 @@
-# CUFF vs TIME Electrode Comparison in COMSOL
+# Peripheral Nerve Stimulation (PNS): Computational Modelling & Electrode Comparison (CUFF · TIME · AIR)
 
-## Project Overview
-
-This project focuses on the computational comparison between two neural stimulation electrode configurations:
-
-* **CUFF electrodes**
-* **TIME electrodes** (Transverse Intrafascicular Multichannel Electrodes)
-* **AIR electrodes** (Adaptable Intrafascicular Radial Electrode)
-
-The simulations are implemented in COMSOL Multiphysics 6.4 in order to evaluate and compare the electrical stimulation behavior produced by the 3 electrode types when applied to peripheral nerve fascicles.
-
-The main goal of the project is to investigate how the geometry and positioning of the electrodes influence:
-
-* Electric potential distribution
-* Selectivity of neural stimulation
-* Fascicle recruitment
-* Axonal activation
-
-The project includes finite element simulations of the nerve environment together with neuronal activation analysis.
-
----
-# Geometry and Nerve Structure
-
-The geometries used in the simulations are generated and imported through the integration between MATLAB and COMSOL Multiphysics.
-
-MATLAB is used to:
-
-* Define parametric geometries
-* Generate nerve and fascicle structures
-* Control geometric dimensions and positioning
-* Automate model configuration
-* Simplify the creation of multiple simulation scenarios
-
-The generated geometrical data are then transferred to COMSOL through the MATLAB-COMSOL interface, enabling automated model construction and simulation workflows.
-
-The computational domain consists of a peripheral nerve immersed in a saline solution used to reproduce the interstitial biological environment.
-
-* Saline conductivity: σ = 2 S/m
-
-The nerve structure contains five fascicles with different dimensions distributed inside the nerve.
-
-Each fascicle contains a neuron modeled through the Hodgkin–Huxley (HH) model in order to evaluate whether the applied electrical stimulation successfully excites the fascicle.
-
-The biological tissues included in the model are:
-
-Tissue	Conductivity
-* Epineurium	σ = 0.083 S/m
-* Endoneurium	σ = {0.083, 0.083, 0.571} S/m
-* Perineurium	modeled as contact impedance, σ = 0.0009 S/m
-
-The perineurium is modeled as a contact impedance layer to reproduce the insulating behavior surrounding each fascicle.
-
----
-# CUFF Electrode Model
-
-The CUFF electrode is modeled as an extraneural stimulation device wrapped around the outer surface of the nerve.
-
-The electrode contacts are made of platinum with conductivity:
-
-* Platinum conductivity: σ = 9.43×10^6 S/m
-
-The insulating support structure is made of silicone with conductivity:
-
-* Silicone conductivity: σ = 1×10^−12 S/m
-
-The CUFF electrode is positioned concentrically around the epineurium without penetrating the neural tissue.
-
-The active stimulation sites consist of:
-
-Platinum active sites:
-- Number of contacts: 8
-- Width: 0.05 mm
-- Length: 0.5 mm
-
-The platinum contacts are positioned circumferentially on the inner surface of the cuff facing the epineurium.
-
----
-# TIME Electrode Model
-
-The TIME electrode is modeled as a transverse intrafascicular stimulation device inserted inside the nerve tissue.
-
-The electrode substrate is made of polyimide acting as insulating support material:
-
-* Polyimide conductivity: σ = 1×10^−14 S/m
-
-The active stimulation sites are made of platinum with conductivity:
-
-* Platinum conductivity: σ = 9.43×10^6 S/m
-
-The TIME electrode is positioned transversally within the nerve and partially penetrates the epineurium and endoneurium without crossing the entire nerve structure.
-
-The electrode geometry consists of:
-
-Polyimide shank:
-- Thickness: 20 µm
-- Height: 280 µm
-Platinum active sites:
-- Number of contacts: 10
-- Contact diameter: 60 µm
-- Contact thickness: 300 nm
-
----
-# AIR Electrode Model 
-
-
----
-# Physics and Simulation Environment
-
-The simulations are implemented using COMSOL Multiphysics 6.4.
-
-The project mainly relies on:
-
-* Electric Currents physics
-* Conductive media modeling
-* Finite Element Method (FEM)
-* Stationary and time-dependent studies
-
-The simulation workflow includes:
-
-1. Geometry generation
-2. Material assignment
-3. Boundary and domain condition definition
-4. Mesh generation
-5. Electrical stimulation setup
-6. Solver execution
-7. Axonal activation analysis
+## 👥 Authors & Affiliation
+* **Filippo Aspi** – Biomedical Engineering
+* **Andrea Goriani** – Biomedical Engineering
 
 ---
 
+## 📝 Project Overview
+This project introduces a comprehensive computational framework for **Peripheral Nerve Stimulation (PNS)**, developed to systematically evaluate, simulate, and compare three state-of-the-art neural electrode architectures:
+1. **Extraneural (Cuff Electrode):** Non-invasive, wrapping around the outer nerve sheath.
+2. **Intraneural TIME (Transverse Intrafascicular Multichannel Electrode):** Transversely penetrating the nerve.
+3. **Intraneural AIR (Adaptable Intrafascicular Radial Electrode):** Optimally shaped radial architecture designed via model-based optimization.
 
-# Simulation Goals
-
-The project aims to:
-
-* Compare Cuff, TIME and AIR electrode performance
-* Evaluate neural selectivity
-* Study fascicle recruitment
-* Investigate axonal activation thresholds
-* Optimize stimulation strategies
+By combining **Finite Element Method (FEM)** macroscopic volume conductor simulations with microscopic **Biophysical Axonal Dynamics (Hodgkin-Huxley & Cable Equation)**, this framework maps the intrinsic trade-offs between surgical invasiveness, structural stability, and spatial stimulation selectivity.
 
 ---
 
+## 🎯 Project Objectives
+* **Parametric 3D Modelling:** Recreate anatomical representations of peripheral nerves (including distinct fascicles, perineurium, and epineurium) alongside detailed electrode meshes.
+* **Volume Conductor Physics:** Map the electric potential fields generated inside the anisotropic tissue under various stimulation paradigms (Monopolar vs. Multipolar/Biphasic).
+* **Neural Activation Mapping:** Solve the time-dependent non-linear membrane equations to predict action potential generation and propagate axonal responses.
+* **Objective Benchmarking:** Quantitative comparison of CUFF, TIME, and AIR architectures within an identical, highly controlled virtual testing environment.
+
+---
+
+## 🔬 Physics & Theoretical Framework
+
+### 1. Macroscopic Domain: Volume Conductor Theory
+At low operational frequencies, peripheral biological tissues can be modeled as purely passive, resistive mediums ($\partial u / \partial t = 0$). Combining the charge conservation law with Ohm's law yields the generalized **Laplace Equation** used to map current propagation in the 3D volume:
+
+$$\nabla \cdot (\sigma \nabla \phi) = 0$$
+
+Where $\sigma$ represents the specific electrical conductivity tensor of the targeted tissue domain, and $\phi$ is the extracellular electric potential.
+
+### 2. Microscopic Domain: Cable Equation & Hodgkin-Huxley Model
+To analyze the transmembrane potential ($V_m$) dynamics across unmyelinated axons over time under external electric fields, the framework solves the **Cable Equation**:
+
+$$\frac{\partial V_m(x,t)}{\partial t} = \frac{1}{C_m} \left( \frac{\sigma I_a}{2} \frac{\partial^2 V_m(x,t)}{\partial x^2} + \frac{\sigma I_a}{2} \frac{\partial^2 \phi_O(x,t)}{\partial x^2} - I_{ion}(x,t) \right)$$
+
+The non-linear ionic current ($I_{ion}$) is calculated using the voltage-dependent gating kinetics ($m$, $h$, $n$) from the **Hodgkin-Huxley model**:
+
+$$I_{ion} = \bar{G}_{Na} m^3 h (V_m - V_{Na}) + \bar{G}_K n^4 (V_m - V_K) + \bar{G}_L (V_m - V_L)$$
+
+The gating variables transition kinetics are governed by:
+$$\frac{dm}{dt} = \alpha_m(V_m)(1-m) - \beta_m(V_m)m$$
+$$\frac{dh}{dt} = \alpha_h(V_m)(1-h) - \beta_h(V_m)h$$
+$$\frac{dn}{dt} = \alpha_n(V_m)(1-n) - \beta_n(V_m)n$$
+
+---
+
+## 💻 Simulation Workflow & Pipeline
+
+The execution architecture links **MATLAB** (for parametric scripting, optimization, and post-processing) with **COMSOL Multiphysics** (for FEM heavy-lifting) through an automated pipeline:
