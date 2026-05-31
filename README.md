@@ -325,29 +325,3 @@ Results highlight the shielding effect of the perineurium on extracellular recor
 
 ✖ Potential electric field dispersion
 
----
-
-# Future Work
-
-- Simulate additional electrode architectures.
-- Refine AIR geometries.
-- Increase the number of modeled axons.
-- Reconstruct complete nerve anatomy from histological images.
-- Investigate closed-loop sensing configurations.
-- Use one electrode architecture as a sensing probe.
-
----
-
-## Reference
-
-Ciotti, F., Cimolato, A., Valle, G., & Raspopovic, S. (2023).
-
-*Design of an Adaptable Intrafascicular Electrode (AIR) for Selective Nerve Stimulation by Model-Based Optimization.*
-
-PLOS Computational Biology, 19(5), e1011184.
-
----
-
-## Acknowledgments
-
-This project combines computational neuroscience, finite element modeling, and neural engineering to explore next-generation peripheral nerve interfaces for neuroprosthetic and neuromodulation applications.
